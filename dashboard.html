@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - ScreenTime Hub</title>
+    <link rel="icon" type="image/png" href="assets/screentime-mark.png">
+    
+    <!-- Bootstrap 5 styles -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Custom styles -->
+    <link rel="stylesheet" href="css/style.css?v=20261108-2">
+    
+    <!-- ApexCharts library -->
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+</head>
+<body class="app-page app-shell">
+    <div class="app-shell-layout">
+        <aside class="workspace-sidebar" aria-label="Main navigation">
+            <a class="workspace-logo" href="dashboard.html" aria-label="ScreenTime Hub dashboard">
+                <img src="assets/screentime-mark.png" width="26" height="26" alt="">
+            </a>
+            <button class="workspace-sidebar-toggle" type="button" data-sidebar-toggle aria-expanded="true" aria-label="Collapse navigation">
+                <span aria-hidden="true">☰</span>
+            </button>
+            <nav class="workspace-nav">
+                <a class="workspace-nav-link active" href="dashboard.html" aria-current="page"><span aria-hidden="true">⌂</span>Home</a>
+                <a class="workspace-nav-link" href="frequently.html"><span aria-hidden="true">◷</span>Analytics</a>
+                <a class="workspace-nav-link" href="draft.html"><span aria-hidden="true">▤</span>Drafts</a>
+                <a class="workspace-nav-link" href="profile.html"><span aria-hidden="true">♙</span>Profile</a>
+                <a class="workspace-nav-link" href="setting.html"><span aria-hidden="true">⚙</span>Settings</a>
+            </nav>
+            <button class="workspace-theme-toggle" type="button" data-theme-toggle aria-pressed="false">
+                <span aria-hidden="true">☾</span><span class="theme-toggle-label">Dark mode</span>
+            </button>
+            <a class="workspace-signout" href="index.html"><span aria-hidden="true">↪</span>Sign out</a>
+        </aside>
+        <main class="app-shell-main">
+            <header class="workspace-topbar">
+                <span class="workspace-breadcrumb">ScreenTime Hub <span aria-hidden="true">/</span> Dashboard</span>
+                <span class="workspace-user"><span class="workspace-user-avatar">A</span> Auzaie</span>
+            </header>
+
+    <!-- Dashboard content -->
+    <div class="container my-4 flex-grow-1 app-shell-content">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h3 class="fw-bold">Today's Activity Summary</h3>
+            <span id="dashboardDate" class="text-muted">Date</span>
+        </div>
+        <div id="dailyLimitAlert" class="alert alert-warning d-none" role="status" aria-live="polite"></div>
+
+        <!-- Summary metric cards -->
+        <div class="row g-3 mb-4">
+            <div class="col-md-4">
+                <div class="card dashboard-stat-card stat-card-blue p-3">
+                    <small class="text-muted fw-bold">TOTAL SCREEN TIME</small>
+                    <h2 id="dashboardTotalTime" class="text-primary fw-bold mt-2">Loading...</h2>
+                    <small class="text-success">↓ 12% compared to yesterday</small>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card dashboard-stat-card stat-card-green p-3">
+                    <small class="text-muted fw-bold">MOST USED APP</small>
+                    <h2 id="dashboardMostUsedApp" class="text-dark fw-bold mt-2">Loading...</h2>
+                    <small id="dashboardMostUsedTime" class="text-muted"></small>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card dashboard-stat-card stat-card-amber p-3">
+                    <small class="text-muted fw-bold">ACTIVE DRAFTS</small>
+                    <h2 id="dashboardDraftCount" class="text-warning fw-bold mt-2">Loading...</h2>
+                    <small class="text-muted">Last updated 1 hour ago</small>
+                </div>
+            </div>
+        </div>
+
+        <!-- Screen time charts -->
+        <div class="row g-4">
+            <div class="col-lg-6">
+                <section class="card dashboard-chart-card p-4 h-100">
+                    <h5 class="fw-bold mb-3">Time by App Category</h5>
+                    <div id="screenTimeChart" class="chart-container"></div>
+                </section>
+            </div>
+            <div class="col-lg-6">
+                <section class="card dashboard-chart-card p-4 h-100">
+                    <h5 class="fw-bold mb-3">Screen Time Throughout the Day</h5>
+                    <div id="dailyUsageChart" class="chart-container"></div>
+                </section>
+            </div>
+            <div class="col-lg-6">
+                <section class="card dashboard-chart-card p-4 h-100">
+                    <h5 class="fw-bold mb-3">Usage by App</h5>
+                    <div id="appUsageChart" class="chart-container"></div>
+                </section>
+            </div>
+            <div class="col-lg-6">
+                <section class="card dashboard-chart-card p-4 h-100">
+                    <h5 class="fw-bold mb-3">Daily Screen Time This Week</h5>
+                    <div id="weeklyUsageChart" class="chart-container"></div>
+                </section>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="app-footer border-top text-center py-3 mt-auto">
+        <small class="text-muted">&copy; 2026 IMS566 Individual Project. Prepared by Auzaie.</small>
+    </footer>
+        </main>
+    </div>
+
+    <!-- Bootstrap JavaScript bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/app.js"></script>
+
+    <!-- ApexCharts configuration -->
+    <script>
+        if (!window.ScreenTimeHub) {
+            document.querySelectorAll('.chart-container').forEach((chart) => {
+                chart.textContent = 'Sign in to load your screen-time activity.';
+            });
+        } else {
+        const chartColors = ['#63a7ff', '#36c9a0', '#f4bd50', '#f17b79'];
+        const chartText = '#d6e2ef';
+        const chartGrid = 'rgba(214, 226, 239, 0.12)';
+        const sharedChartOptions = {
+            chart: {
+                height: 300,
+                background: 'transparent',
+                foreColor: chartText,
+                toolbar: { show: false },
+                fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif"
+            },
+            dataLabels: { enabled: false },
+            grid: { borderColor: chartGrid, strokeDashArray: 4 },
+            legend: { labels: { colors: chartText } },
+            tooltip: { theme: 'dark' },
+            xaxis: { labels: { style: { colors: chartText } } },
+            yaxis: { labels: { style: { colors: chartText } } }
+        };
+
+        function renderDashboardChart(selector, options) {
+            const element = document.querySelector(selector);
+            if (!element) return;
+            if (typeof ApexCharts === 'undefined') {
+                element.textContent = 'Charts could not be loaded. Check your internet connection and refresh.';
+                return;
+            }
+
+            const chart = new ApexCharts(element, {
+                ...sharedChartOptions,
+                ...options,
+                chart: { ...sharedChartOptions.chart, ...options.chart }
+            });
+            chart.render();
+        }
+
+        renderDashboardChart('#screenTimeChart', {
+            chart: { type: 'donut' },
+            series: window.ScreenTimeHub.categories.map((category) => category[1]),
+            labels: window.ScreenTimeHub.categories.map((category) => category[0]),
+            colors: window.ScreenTimeHub.categories.map((category, index) => chartColors[index % chartColors.length]),
+            stroke: { colors: ['#18324b'] },
+            plotOptions: {
+                pie: {
+                    donut: {
+                        size: '66%',
+                        labels: {
+                            show: true,
+                            total: {
+                                show: true,
+                                label: 'Total minutes',
+                                color: chartText,
+                                formatter: (value) => Math.round(value.globals.seriesTotals.reduce((sum, total) => sum + total, 0))
+                            }
+                        }
+                    }
+                }
+            },
+            legend: { position: 'bottom', labels: { colors: chartText } }
+        });
+
+        renderDashboardChart('#dailyUsageChart', {
+            chart: { type: 'area' },
+            series: [{ name: 'Minutes', data: [8, 22, 15, 38, 27, 45, 31, 24] }],
+            colors: [chartColors[0]],
+            stroke: { curve: 'smooth', width: 3 },
+            fill: {
+                type: 'gradient',
+                gradient: { opacityFrom: 0.45, opacityTo: 0.04 }
+            },
+            markers: { size: 4, colors: [chartColors[0]], strokeColors: '#18324b' },
+            xaxis: { categories: ['8 AM', '10 AM', '12 PM', '2 PM', '4 PM', '6 PM', '8 PM', '10 PM'] },
+            yaxis: { title: { text: 'Minutes' }, min: 0 }
+        });
+
+        renderDashboardChart('#appUsageChart', {
+            chart: { type: 'bar' },
+            series: [{ name: 'Minutes', data: window.ScreenTimeHub.topApps.map((app) => app.minutes) }],
+            colors: [chartColors[1]],
+            plotOptions: { bar: { borderRadius: 5, horizontal: true, barHeight: '55%' } },
+            xaxis: {
+                categories: window.ScreenTimeHub.topApps.map((app) => app.name),
+                title: { text: 'Minutes' },
+                min: 0
+            },
+            yaxis: { labels: { style: { colors: chartText } } }
+        });
+
+        renderDashboardChart('#weeklyUsageChart', {
+            chart: { type: 'bar' },
+            series: [{ name: 'Hours', data: [3.8, 4.2, 3.5, 5.1, 4.6, 5.4, 4.6] }],
+            colors: [chartColors[2]],
+            plotOptions: { bar: { borderRadius: 5, columnWidth: '48%' } },
+            xaxis: { categories: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'] },
+            yaxis: { title: { text: 'Hours' }, min: 0, max: 6 }
+        });
+        }
+    </script>
+</body>
+</html>

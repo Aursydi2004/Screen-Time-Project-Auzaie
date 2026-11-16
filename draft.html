@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Drafts & Activity - ScreenTime Hub</title>
+    <link rel="icon" type="image/png" href="assets/screentime-mark.png">
+    
+    <!-- Bootstrap 5 styles -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Custom styles -->
+    <link rel="stylesheet" href="css/style.css?v=20261108-2">
+</head>
+<body class="app-page drafts-workspace">
+    <div class="drafts-workspace-shell">
+        <aside class="workspace-sidebar">
+            <a class="workspace-logo" href="dashboard.html" aria-label="ScreenTime Hub dashboard">
+                <img src="assets/screentime-mark.png" width="26" height="26" alt="">
+            </a>
+            <button class="workspace-sidebar-toggle" type="button" data-sidebar-toggle aria-expanded="true" aria-label="Collapse navigation">
+                <span aria-hidden="true">☰</span>
+            </button>
+            <nav class="workspace-nav" aria-label="Main navigation">
+                <a class="workspace-nav-link" href="dashboard.html"><span aria-hidden="true">⌂</span>Home</a>
+                <a class="workspace-nav-link" href="frequently.html"><span aria-hidden="true">◷</span>Analytics</a>
+                <a class="workspace-nav-link active" href="draft.html" aria-current="page"><span aria-hidden="true">▤</span>Drafts</a>
+                <a class="workspace-nav-link" href="profile.html"><span aria-hidden="true">♙</span>Profile</a>
+                <a class="workspace-nav-link" href="setting.html"><span aria-hidden="true">⚙</span>Settings</a>
+            </nav>
+            <button class="workspace-theme-toggle" type="button" data-theme-toggle aria-pressed="false">
+                <span aria-hidden="true">☾</span><span class="theme-toggle-label">Dark mode</span>
+            </button>
+            <a class="workspace-signout" href="index.html"><span aria-hidden="true">↪</span>Sign out</a>
+        </aside>
+
+        <main class="workspace-main">
+            <header class="workspace-topbar">
+                <span class="workspace-breadcrumb">Workspace <span aria-hidden="true">/</span> Drafts</span>
+                <span class="workspace-user"><span class="workspace-user-avatar">A</span> Auzaie</span>
+            </header>
+
+            <div class="workspace-content">
+                <header class="drafts-page-heading">
+                    <div>
+                        <span class="workspace-eyebrow">YOUR WORKSPACE</span>
+                        <h1>Your collection</h1>
+                        <p><span id="draftsTotalSentenceCount">—</span> drafts and notes, all in one place.</p>
+                    </div>
+                    <button class="btn workspace-create-button" type="button" data-bs-toggle="modal" data-bs-target="#createDraftModal">
+                        <span aria-hidden="true">＋</span> Create draft
+                    </button>
+                </header>
+
+                <section class="workspace-stats" aria-label="Draft overview">
+                    <article class="workspace-stat-card">
+                        <span class="workspace-stat-icon workspace-stat-blue" aria-hidden="true">◷</span>
+                        <div><small>Total drafts</small><strong id="draftsTotalCount">—</strong><span>Across all categories</span></div>
+                    </article>
+                    <article class="workspace-stat-card">
+                        <span class="workspace-stat-icon workspace-stat-green" aria-hidden="true">✎</span>
+                        <div><small>Active drafts</small><strong id="draftsActiveCount">—</strong><span>Ready to continue</span></div>
+                    </article>
+                    <article class="workspace-stat-card">
+                        <span class="workspace-stat-icon workspace-stat-purple" aria-hidden="true">◉</span>
+                        <div><small>Under review</small><strong id="draftsReviewCount">—</strong><span>Waiting for feedback</span></div>
+                    </article>
+                    <article class="workspace-stat-card">
+                        <span class="workspace-stat-icon workspace-stat-amber" aria-hidden="true">✓</span>
+                        <div><small>Completed</small><strong id="draftsCompletedCount">—</strong><span>Nicely done</span></div>
+                    </article>
+                </section>
+
+                <div id="draftsFeedback" class="alert d-none" role="status" aria-live="polite"></div>
+
+                <div class="drafts-workspace-grid">
+                    <section class="workspace-panel drafts-collection-panel">
+                        <div class="workspace-panel-heading">
+                            <div>
+                                <span class="workspace-eyebrow">YOUR COLLECTION</span>
+                                <h2>Browse your drafts</h2>
+                            </div>
+                            <span id="draftsResultCount" class="workspace-result-count" aria-live="polite"></span>
+                        </div>
+                        <label class="workspace-search">
+                            <span aria-hidden="true">⌕</span>
+                            <input id="draftsSearch" type="search" placeholder="Search titles, notes or categories..." aria-label="Search drafts">
+                        </label>
+                        <div class="table-responsive workspace-table-wrap">
+                            <table id="draftsTable" class="table align-middle workspace-table">
+                                <thead>
+                                    <tr>
+                                        <th>Draft ID</th>
+                                        <th>Title / Note</th>
+                                        <th>Project Category</th>
+                                        <th>Last Updated</th>
+                                        <th>Draft Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                        <tr>
+                            <td>#DRF-101</td>
+                            <td>IMS566 Web Project Documentation</td>
+                            <td>Academic</td>
+                            <td>3 minutes ago</td>
+                            <td><span class="badge bg-primary">Active</span></td>
+                        </tr>
+                        <tr>
+                            <td>#DRF-102</td>
+                            <td>PHP Schema & Relational Database Code</td>
+                            <td>System Development</td>
+                            <td>2 hours ago</td>
+                            <td><span class="badge bg-warning text-dark">Under Review</span></td>
+                        </tr>
+                        <tr>
+                            <td>#DRF-103</td>
+                            <td>Weekly Exercise & Running Plan</td>
+                            <td>Healthy Lifestyle</td>
+                            <td>Yesterday</td>
+                            <td><span class="badge bg-secondary">Saved</span></td>
+                        </tr>
+                        <tr>
+                            <td>#DRF-104</td>
+                            <td>Internship Group Discussion Notes</td>
+                            <td>Career</td>
+                            <td>3 days ago</td>
+                            <td><span class="badge bg-success">Completed</span></td>
+                        </tr>
+                        <tr>
+                            <td>#DRF-105</td>
+                            <td>Screen Time App Feature Ideas</td>
+                            <td>Product Planning</td>
+                            <td>Today</td>
+                            <td><span class="badge bg-primary">Active</span></td>
+                        </tr>
+                        <tr>
+                            <td>#DRF-106</td>
+                            <td>Weekly Class and Assignment Schedule</td>
+                            <td>Academic</td>
+                            <td>Yesterday</td>
+                            <td><span class="badge bg-secondary">Saved</span></td>
+                        </tr>
+                        <tr>
+                            <td>#DRF-107</td>
+                            <td>Meeting Notes: Project Progress</td>
+                            <td>Project Management</td>
+                            <td>2 days ago</td>
+                            <td><span class="badge bg-warning text-dark">Under Review</span></td>
+                        </tr>
+                        <tr>
+                            <td>#DRF-108</td>
+                            <td>Monthly Budget and Expense Tracker</td>
+                            <td>Personal Finance</td>
+                            <td>3 days ago</td>
+                            <td><span class="badge bg-secondary">Saved</span></td>
+                        </tr>
+                        <tr>
+                            <td>#DRF-109</td>
+                            <td>UI Color Palette and Layout Ideas</td>
+                            <td>Design</td>
+                            <td>4 days ago</td>
+                            <td><span class="badge bg-primary">Active</span></td>
+                        </tr>
+                        <tr>
+                            <td>#DRF-110</td>
+                            <td>Database Testing Checklist</td>
+                            <td>System Development</td>
+                            <td>1 week ago</td>
+                            <td><span class="badge bg-success">Completed</span></td>
+                        </tr>
+                        <tr>
+                            <td>#DRF-111</td>
+                            <td>Reading List and Research Sources</td>
+                            <td>Research</td>
+                            <td>1 week ago</td>
+                            <td><span class="badge bg-secondary">Saved</span></td>
+                        </tr>
+                        <tr>
+                            <td>#DRF-112</td>
+                            <td>Personal Goals for the Month</td>
+                            <td>Personal</td>
+                            <td>2 weeks ago</td>
+                            <td><span class="badge bg-primary">Active</span></td>
+                        </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </section>
+
+                    <aside class="drafts-side-panels">
+                        <section class="workspace-panel workspace-filter-panel">
+                            <div class="workspace-panel-heading">
+                                <div><span class="workspace-eyebrow">REFINE RESULTS</span><h2>Filters</h2></div>
+                                <span class="workspace-filter-icon" aria-hidden="true">☷</span>
+                            </div>
+                            <label class="workspace-field-label" for="draftCategoryFilter">Category</label>
+                            <select id="draftCategoryFilter" class="form-select workspace-category-select">
+                                <option value="">All categories</option>
+                            </select>
+                            <span class="workspace-field-label">Status</span>
+                            <div class="draft-filter-group workspace-status-filters" role="group" aria-label="Filter drafts by status">
+                                <button class="draft-filter active" type="button" data-draft-filter="All" aria-pressed="true">All drafts</button>
+                                <button class="draft-filter" type="button" data-draft-filter="Active" aria-pressed="false">In progress</button>
+                                <button class="draft-filter" type="button" data-draft-filter="Under Review" aria-pressed="false">In review</button>
+                                <button class="draft-filter" type="button" data-draft-filter="Saved" aria-pressed="false">Saved</button>
+                                <button class="draft-filter" type="button" data-draft-filter="Completed" aria-pressed="false">Completed</button>
+                            </div>
+                        </section>
+
+                        <section class="workspace-panel workspace-analytics-panel">
+                            <div class="workspace-panel-heading">
+                                <div><span class="workspace-eyebrow">AT A GLANCE</span><h2>Draft status</h2></div>
+                            </div>
+                            <div class="workspace-status-chart" aria-hidden="true">
+                                <div class="workspace-status-chart-center"><strong id="draftsChartTotal">—</strong><span>drafts</span></div>
+                            </div>
+                            <div class="workspace-status-legend">
+                                <div><span class="legend-dot legend-active"></span><span>Active</span><strong id="draftsChartActive">—</strong></div>
+                                <div><span class="legend-dot legend-review"></span><span>In review</span><strong id="draftsChartReview">—</strong></div>
+                                <div><span class="legend-dot legend-saved"></span><span>Saved</span><strong id="draftsChartSaved">—</strong></div>
+                                <div><span class="legend-dot legend-completed"></span><span>Completed</span><strong id="draftsChartCompleted">—</strong></div>
+                            </div>
+                        </section>
+                    </aside>
+                </div>
+            </div>
+            <footer class="workspace-footer">&copy; 2026 IMS566 Individual Project. Prepared by Auzaie.</footer>
+        </main>
+    </div>
+
+    <div class="modal fade" id="createDraftModal" tabindex="-1" aria-labelledby="createDraftModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <form id="createDraftForm">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="createDraftModalLabel">Create a Draft or Note</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label for="draftTitle" class="form-label">Title</label>
+                            <input id="draftTitle" class="form-control" maxlength="100" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="draftCategory" class="form-label">Category</label>
+                            <input id="draftCategory" class="form-control" maxlength="60" placeholder="e.g. Academic" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="draftNotes" class="form-label">Note (optional)</label>
+                            <textarea id="draftNotes" class="form-control" rows="3" maxlength="500"></textarea>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-success">Save Draft</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JavaScript bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>

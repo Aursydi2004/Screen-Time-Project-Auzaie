@@ -1,0 +1,25 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "pwa-chrome",
+            "request": "launch",
+            "name": "Launch ScreenTime Hub in Chrome (Laragon)",
+            "url": "http://localhost/Screen-time-project/index.html",
+            "webRoot": "${workspaceFolder}",
+            "runtimeArgs": [
+                "--disable-extensions",
+                "--no-first-run",
+                "--no-default-browser-check"
+            ],
+            "skipFiles": [
+                "**/node_modules/**",
+                "**/bootstrap@*/**",
+                "**/bootstrap/**"
+            ]
+        }
+    ]
+}
